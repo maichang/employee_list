@@ -15,7 +15,7 @@ export default class EmployeeManager {
     console.log('▼ 一覧')
     console.log('id name birthday saraly')
     this.employees.forEach(n => {
-      console.log(`${n.id} ${n.name} ${n.birthday} ${n.salary}`)
+      console.log(`${n.id} ${n.name} ${n.birthday} ${n.salary.toLocaleString()}`)
     })
   }
   deleteEmployee(targetId) {
