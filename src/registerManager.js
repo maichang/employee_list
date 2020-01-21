@@ -2,7 +2,7 @@ const readlineSync = require('readline-sync')
 const moment = require('moment')
 
 const MAX_SALARY = 1000000
-const REGEX = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
+const BIRTHDAY_REGEX = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
 
 export default class Register {
   _inputName() { // input name
@@ -26,12 +26,13 @@ export default class Register {
         console.log('＊入力必須です。')
         continue
       }
-      const match = inputBirthday.match(REGEX)
+      const match = inputBirthday.match(BIRTHDAY_REGEX)
       if (!match) { // 正規表現
         console.log('＊正しく入力してください。 e.g. 1999-07-21')
         continue
       }
-      const valid = moment(inputBirthday).isValid()
+      const toMomentType = moment(inputBirthday)
+      const valid = toMomentType.isValid()
       if (!valid) { // 不正な日付チェック(不正な日付)
         console.log('＊不正な日付です。')
         continue
@@ -41,7 +42,6 @@ export default class Register {
         console.log('＊15歳未満は登録できません。')
         continue
       }
-      const toMomentType = moment(inputBirthday)
       birthday = toMomentType
       break
     }
@@ -65,7 +65,7 @@ export default class Register {
         continue
       }
       if (toInt > MAX_SALARY) {
-        console.log('sss')
+        console.log('＊100万以上の金額は入力できません。')
         continue
       }
       salary = toInt
