@@ -5,7 +5,10 @@ const readlineSync = require('readline-sync')
 const register = new Register()
 const employeeManager = new EmployeeManager()
 
-const REGISTER_NUMBER = ['1', '2', '3', '4']
+const REGISTRATION = '1'
+const SHOW_LIST = '2'
+const DELETE = '3'
+const END = '4'
 
 // メニュー表示
 selectionMenu: while (true) {
@@ -14,18 +17,18 @@ selectionMenu: while (true) {
 
   const input = readlineSync.question('選択してください。＞')
   switch (input) {
-    case REGISTER_NUMBER[0]:
+    case REGISTRATION:
       const data = register.register()
       employeeManager.addEmployee(data.name, data.birthday, data.salary)
       break
-    case REGISTER_NUMBER[1]:
+    case SHOW_LIST:
       employeeManager.allEmployee()
       break
-    case REGISTER_NUMBER[2]:
+    case DELETE:
       const targetId = readlineSync.question('IDを入力してください。＞')
       employeeManager.deleteEmployee(targetId)
       break
-    case REGISTER_NUMBER[3]:
+    case END:
       break selectionMenu
   }
 }

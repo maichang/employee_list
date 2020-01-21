@@ -2,6 +2,7 @@ const readlineSync = require('readline-sync')
 const moment = require('moment')
 
 const MAX_SALARY = 1000000
+const REGEX = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
 
 export default class Register {
   _inputName() { // input name
@@ -21,34 +22,27 @@ export default class Register {
     let birthday = null
     while (true) {
       const inputBirthday = readlineSync.question('誕生日 ＞')
-
-      // 正規表現
-      const regex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/
-      const match = inputBirthday.match(regex)
-
-      // 不正な日付チェック
-      const valid = moment(inputBirthday).isValid()
-      const age = moment().diff(inputBirthday, 'years')
-
-      // requiredチェック
-      if (!inputBirthday) { // 空白をチェック
+      if (!inputBirthday) { // 空白チェック
         console.log('＊入力必須です。')
         continue
       }
-      if (!match) { // regexチェック
+      const match = inputBirthday.match(REGEX)
+      if (!match) { // 正規表現
         console.log('＊正しく入力してください。 e.g. 1999-07-21')
         continue
       }
-      if (!valid) { // うるう年とかはじく
+      const valid = moment(inputBirthday).isValid()
+      if (!valid) { // 不正な日付チェック(不正な日付)
         console.log('＊不正な日付です。')
         continue
       }
+      const age = moment().diff(inputBirthday, 'years')
       if ((age + 1) < 15) { // 年齢チェック
         console.log('＊15歳未満は登録できません。')
         continue
       }
-      const formatCheck = moment(inputBirthday).format('YYYY-MM-DD')
-      birthday = formatCheck
+      const toMomentType = moment(inputBirthday)
+      birthday = toMomentType
       break
     }
     return birthday
